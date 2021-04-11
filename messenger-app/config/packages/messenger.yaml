@@ -1,0 +1,29 @@
+framework:
+  messenger:
+    failure_transport: failed
+    transports:
+      sync: 'sync://'
+      async_raw:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queues:
+            messages_raw: ~
+          exchange:
+            name: messages_raw
+      async_slug:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queues:
+            messages_slug: ~
+          exchange:
+            name: messages_slug
+      failed:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queues:
+            messages_failed: ~
+          exchange:
+            name: messages_failed
+    routing:
+      'App\Message\RawText': async_raw
+      'App\Message\TextSlug': async_slug
